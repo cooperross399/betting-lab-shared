@@ -13,15 +13,20 @@ the lock fails that run, so nothing drifts silently.
 
 ## Changing a file
 
-NHL is the editing home for page design drops. A drop lands here first:
+Pages are designed in Claude Design and arrive on their own. Claude Design
+pushes a `design/**` branch to `nhl-betting-lab`, whose Design Drop workflow
+copies any changed shared file here, commits it to `main` and tags it (`v2`,
+`v3`, ...; tags are never moved), re-pins the NHL lock, merges the drop on
+green, and then opens a `shared-sync/<tag>` pull request in the EPL lab, the
+CBB lab and the hub that copies the tag and re-pins each lock. Those merge
+themselves when every check passes.
 
-1. Commit the change here and tag it (`v2`, `v3`, ...). Tags are never moved.
-2. In each lab, copy the changed files into `web/`, run
-   `python web/sync_shared.py --lock <checkout of this repo> --tag vN`, and open a
-   pull request with the copies and the new lock. Its tests compare the copies
-   to the lock.
-3. In the hub, copy `lib/sports.js` and `lib/format.js` and update
-   `shared.lock.json` the same way.
+By hand, if ever needed: commit and tag here, then in each lab run
+`python web/sync_shared.py --lock <checkout of this repo> --tag vN` followed by
+`--from <checkout>` and open a pull request with the copies and the new lock;
+in the hub, copy `lib/sports.js` and `lib/format.js` and update
+`shared.lock.json` the same way. Do not edit `design/**` or `shared-sync/**`
+branches by hand.
 
 Nothing here fetches odds, spends a credit or places a bet. The logos are the
 leagues' and clubs' trademarks, shown for identification only.
