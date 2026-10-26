@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>Archive — Maverick Hightower</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Every published board, frozen the moment it went up. Open any date to see what was said before the games were played.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Maverick Hightower">
+  <meta property="og:title" content="Archive — Maverick Hightower">
+  <meta property="og:description" content="Every published board, frozen the moment it went up. Open any date to see what was said before the games were played.">
+  <meta property="og:image" content="https://maverickhightower.com/share.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@mavhightower">
+  <meta name="twitter:title" content="Archive — Maverick Hightower">
+  <meta name="twitter:description" content="Every published board, frozen the moment it went up. Open any date to see what was said before the games were played.">
+  <meta name="twitter:image" content="https://maverickhightower.com/share.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* One look per site: NHL dark, EPL gray, CBB white. EPL and CBB darken with the phone's dark mode. */
+    :root, html[data-sport="nhl"] { color-scheme: dark; --paper:#14151a; --ink:#f1efe9; --ink-2:#d2d0ca; --mute:#a3a6b1; --mute-2:#80838e; --rule:#3a3d49; --rule-2:#262832; --on-ink:#3a3d49; --alert:#f08a72; --on-alert:#14151a; --win:#5cc196; --on-win:#14151a; --desk:#0d0e12; }
+    html[data-sport="epl"], html[data-sport="epl"] [data-theme="light"] { color-scheme: light; --paper:#d9dade; --ink:#14151a; --ink-2:#2a2d36; --mute:#50535e; --mute-2:#767984; --rule:#b4b6bd; --rule-2:#c6c8ce; --on-ink:#c6c8ce; --alert:#9e2c19; --on-alert:#f4f4f6; --win:#22664a; --on-win:#f4f4f6; --desk:#c9cbd0; }
+    html[data-sport="cbb"], html[data-sport="cbb"] [data-theme="light"] { color-scheme: light; --paper:#ffffff; --ink:#14151a; --ink-2:#2a2d3a; --mute:#62656f; --mute-2:#9a9ca6; --rule:#dddbd6; --rule-2:#ecebe7; --on-ink:#d6d3cc; --alert:#b0341f; --on-alert:#ffffff; --win:#2c7a5a; --on-win:#ffffff; --desk:#eeede9; }
+    @media (prefers-color-scheme: dark) { html[data-sport="epl"] { color-scheme: dark; --paper:#2a2c32; --ink:#ecebe7; --ink-2:#cfcec9; --mute:#a9abb4; --mute-2:#878a94; --rule:#474a53; --rule-2:#363840; --on-ink:#474a53; --alert:#f29077; --on-alert:#1b1c20; --win:#62c79c; --on-win:#1b1c20; --desk:#212328; } html[data-sport="cbb"] { color-scheme: dark; --paper:#0f1a2b; --ink:#eef1f6; --ink-2:#cdd4e0; --mute:#9ba6b8; --mute-2:#7a869a; --rule:#2b3a52; --rule-2:#1c2a3f; --on-ink:#2b3a52; --alert:#f08a72; --on-alert:#0f1a2b; --win:#5cc196; --on-win:#0f1a2b; --desk:#0a1220; } }
+    html[data-sport="epl"] [data-theme="dark"] { color-scheme: dark; --paper:#2a2c32; --ink:#ecebe7; --ink-2:#cfcec9; --mute:#a9abb4; --mute-2:#878a94; --rule:#474a53; --rule-2:#363840; --on-ink:#474a53; --alert:#f29077; --on-alert:#1b1c20; --win:#62c79c; --on-win:#1b1c20; --desk:#212328; }
+    html[data-sport="cbb"] [data-theme="dark"] { color-scheme: dark; --paper:#0f1a2b; --ink:#eef1f6; --ink-2:#cdd4e0; --mute:#9ba6b8; --mute-2:#7a869a; --rule:#2b3a52; --rule-2:#1c2a3f; --on-ink:#2b3a52; --alert:#f08a72; --on-alert:#0f1a2b; --win:#5cc196; --on-win:#0f1a2b; --desk:#0a1220; }
+    html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: "IBM Plex Sans", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    * { box-sizing: border-box; }
+    a { color: var(--ink); text-decoration: none; }
+    a:hover { color: var(--ink-2); text-decoration: underline; text-underline-offset: 3px; }
+    a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+    .skip { position: absolute; left: 12px; top: -60px; background: var(--ink); color: var(--paper); padding: 10px 14px; z-index: 10; font-size: 14px; }
+    .skip:focus { top: 12px; }
+  </style>
+  <meta name="theme-color" content="#14151a">
+  <script>(function(){var m=/^(nhl|epl|cbb)\./.exec(location.hostname),d=document.documentElement;d.setAttribute("data-sport",m?m[1]:(d.getAttribute("data-sport")||"nhl"));})();</script>
+</helmet>
+<div data-screen-label="Archive" data-theme="{{ themeAttr }}" style="min-height:100vh;background:var(--paper);color:var(--ink);">
+  <a href="#main" class="skip">Skip to the list of boards</a>
+  <div style="max-width:1240px;margin:0 auto;padding:0 clamp(16px,3vw,24px) 80px;">
+    <header style="border-top:4px solid var(--ink);padding:10px 0 4px;display:flex;align-items:center;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;">
+      <a href="https://maverickhightower.com/" aria-label="Maverick Hightower home" style="display:flex;align-items:center;gap:12px;min-height:44px;">
+        <span aria-hidden="true" style="width:36px;height:36px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;letter-spacing:.04em;">MH</span>
+        <span style="display:flex;flex-direction:column;line-height:1.1;">
+          <span style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);">Maverick Hightower</span>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;letter-spacing:.02em;text-transform:uppercase;">{{ sportLong }}</span>
+        </span>
+      </a>
+      <nav aria-label="Site" style="display:flex;gap:0 18px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;flex-wrap:wrap;">
+        <a href="https://maverickhightower.com/about.html" style="display:inline-flex;align-items:center;min-height:44px;">About</a>
+        <sc-for list="{{ otherSports }}" as="s" hint-placeholder-count="2"><a href="{{ s.href }}" style="{{ s.style }}">{{ s.name }}</a></sc-for>
+      </nav>
+    </header>
+
+    <nav aria-label="Board sections" style="position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--ink);display:flex;">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <a href="{{ t.href }}" aria-current="{{ t.current }}" style="flex:1 1 0;max-width:150px;min-width:0;display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 4px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;white-space:nowrap;text-decoration:none;box-shadow:{{ t.shadow }};">{{ t.label }}</a>
+      </sc-for>
+    </nav>
+
+
+    <section style="padding:40px 0 28px;border-bottom:1px solid var(--ink);">
+      <div style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:10px;">{{ sportName }} · every published board</div>
+      <h1 style="margin:0;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(56px,9vw,112px);line-height:.9;letter-spacing:-.01em;text-transform:uppercase;">The<br>Record.</h1>
+    </section>
+
+    <sc-if value="{{ hasFeedNotice }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:start;padding:18px 0;border-bottom:1px solid var(--ink);">
+        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--ink);padding:4px 9px;">Sample</span>
+        <p style="margin:0;font-size:15px;line-height:1.5;color:var(--ink-2);max-width:760px;">{{ feedNotice }}</p>
+      </div>
+    </sc-if>
+
+    <section id="main" style="padding-top:44px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:3px solid var(--ink);padding-bottom:10px;">
+        <h2 style="margin:0;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:34px;line-height:1;text-transform:uppercase;letter-spacing:.01em;">Published boards</h2>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--mute);">{{ count }} boards · newest first</div>
+      </div>
+      <sc-if value="{{ hasYears }}" hint-placeholder-val="{{ false }}">
+        <div role="tablist" aria-label="Season" style="display:flex;gap:0;margin-top:14px;border:1px solid var(--ink);width:max-content;max-width:100%;">
+          <sc-for list="{{ years }}" as="y" hint-placeholder-count="2">
+            <button type="button" role="tab" aria-selected="{{ y.selected }}" onClick="{{ y.onClick }}" style="min-height:44px;padding:0 14px;background:{{ y.bg }};color:{{ y.fg }};border:0;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">{{ y.label }}</button>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-for list="{{ months }}" as="m" hint-placeholder-count="1">
+        <div style="display:flex;align-items:baseline;gap:14px;padding:26px 0 10px;border-bottom:1px solid var(--ink);">
+          <h3 style="margin:0;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:.02em;">{{ m.label }}</h3>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--mute);">{{ m.countLabel }}</span>
+        </div>
+        <sc-for list="{{ m.items }}" as="d" hint-placeholder-count="5">
+          <a href="{{ d.href }}" aria-label="Open the board for {{ d.label }}" style="display:grid;min-height:44px;grid-template-columns:minmax(0,1.4fr) repeat(auto-fit,minmax(110px,1fr));gap:8px 24px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--rule);">
+            <span style="font-weight:600;font-size:16px;">{{ d.label }}<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--mute);font-weight:400;margin-left:10px;">{{ d.slot }}</span></span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink-2);">{{ d.games }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink-2);">{{ d.bets }}</span>
+            <span aria-hidden="true" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--mute);text-align:right;">Open →</span>
+          </a>
+        </sc-for>
+      </sc-for>
+      <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--mute);padding:22px 0;">No boards published yet.</p>
+      </sc-if>
+    </section>
+
+
+    <footer style="margin-top:56px;border-top:1px solid var(--ink);padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:8px 16px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--mute);">
+      <span>© 2026 Maverick Hightower</span>
+    </footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;sport&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;nhl&quot;,&quot;epl&quot;,&quot;cbb&quot;],&quot;default&quot;:&quot;nhl&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Preview&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Auto&quot;,&quot;Light&quot;,&quot;Dark&quot;],&quot;default&quot;:&quot;Auto&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Preview&quot;}}">
+class Component extends DCLogic {
+  state = { months: [], count: 0, feedNotice: null, loadedFor: null, sport: null, otherSports: [] };
+  async load() {
+    const want = this.props.sport || "nhl";
+    if (this.state.loadedFor === want) return;
+    this.setState({ loadedFor: want });
+    const S = await import("./lib/sports.js"), F = await import("./lib/format.js");
+    const { sport, deployed } = await S.detectSport(want);
+    if (typeof document !== "undefined") { document.documentElement.setAttribute("data-sport", sport); { const p = getComputedStyle(document.documentElement).getPropertyValue("--paper").trim(), m = document.querySelector('meta[name="theme-color"]'); if (m && p) m.setAttribute("content", p); } }
+    const cfg = S.SPORTS[sport];
+    const base = deployed ? "./data/" : cfg.sample.replace(/board\.json$/, "");
+    let idx = { dates: [] }, feedNotice = null;
+    try { const r = await fetch(`${base}history/index.json`, { cache: "no-store" }); if (!r.ok) throw new Error(`HTTP ${r.status}`); idx = await r.json(); }
+    catch (e) { feedNotice = "Archive unreachable right now."; }
+    const dates = [...(idx.dates || [])].sort((a, b) => (a.date < b.date ? 1 : -1));
+    const mf = new Intl.DateTimeFormat(undefined, { month: "long", year: "numeric" });
+    const by = new Map();
+    for (const d of dates) {
+      const [y, m, dd] = d.date.split("-").map(Number), dt = new Date(y, m - 1, dd), k = `${y}-${m}`;
+      if (!by.has(k)) by.set(k, { key: k, label: mf.format(dt), items: [] });
+      by.get(k).items.push({ href: `Board.dc.html?date=${encodeURIComponent(d.file || d.date)}`, label: F.fmtDateOnly(d.date), slot: d.slot ? `${d.slot} card` : d.note || "",
+        games: typeof d.games === "number" ? `${d.games} ${sport === "epl" ? "fixtures" : "games"}` : "", bets: typeof d.bets === "number" ? `${d.bets} best bet${d.bets === 1 ? "" : "s"}` : d.bets === null ? "not priced" : "" });
+    }
+    const months = [...by.values()].map((m) => ({ ...m, countLabel: `${m.items.length} board${m.items.length === 1 ? "" : "s"}` }));
+    const otherSports = S.ORDER.filter((k) => k !== sport).map((k, i) => ({ name: S.SPORTS[k].name, href: S.SPORTS[k].host, style: `display:inline-flex;align-items:center;min-height:44px;${i === 0 ? "margin-left:6px;padding-left:18px;border-left:1px solid var(--rule);" : ""}` }));
+    this.setState({ months, count: dates.length, feedNotice, sport: cfg, otherSports });
+  }
+  componentDidMount() { this.load(); }
+  componentDidUpdate() { this.load(); }
+  renderVals() {
+    const s = this.state;
+    // Season selector appears once the archive spans more than one season (Sept–Aug).
+    const seasonOf = (m) => { const [y, mo] = String(m.key || m.label).split("-").map(Number); return Number.isFinite(mo) ? (mo >= 9 ? y : y - 1) : y; };
+    const seasons = [...new Set(s.months.map(seasonOf))].filter(Number.isFinite).sort((a, b) => b - a);
+    const sel = seasons.includes(s.season) ? s.season : seasons[0];
+    const years = seasons.length > 1 ? seasons.map((y) => ({ label: `${y}–${String(y + 1).slice(2)}`, selected: y === sel ? "true" : "false", bg: y === sel ? "var(--ink)" : "transparent", fg: y === sel ? "var(--paper)" : "var(--ink)", onClick: () => this.setState({ season: y }) })) : [];
+    const months = seasons.length > 1 ? s.months.filter((m) => seasonOf(m) === sel) : s.months;
+    const sk = (s.sport && s.sport.key) || ((/^(nhl|epl|cbb)\./.exec(location.hostname) || [])[1]) || this.props.sport || "nhl";
+    const tab = (label, href, on) => ({ label, href, current: on ? "page" : undefined, shadow: on ? "inset 0 -3px 0 var(--ink)" : "none" });
+    const tabs = [tab(sk === "epl" ? "This week" : "Tonight", "Board.dc.html"), ...(sk === "nhl" ? [tab("Props", "Board.dc.html#props")] : []), tab("Results", "Results.dc.html", false), ...(sk === "nhl" ? [tab("Season", "Season.dc.html"), tab("Record", "Record.dc.html", false), tab("Tracker", "Tracker.dc.html", true)] : [tab("Archive", "Archive.dc.html", true)])];
+    const themeAttr = { Light: "light", Dark: "dark" }[this.props.theme] || "auto";
+    return { themeAttr, tabs, months, years, hasYears: years.length > 0, count: s.count, isEmpty: s.loadedFor && s.count === 0, hasFeedNotice: !!s.feedNotice, feedNotice: s.feedNotice || "", otherSports: s.otherSports,
+      sportLong: s.sport ? s.sport.longName : "", sportName: s.sport ? s.sport.name : "" };
+  }
+}
+</script>
+</body>
+</html>
