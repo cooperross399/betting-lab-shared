@@ -1,0 +1,41 @@
+# Creates a pin tag (vN) on a commit of main, so a Claude session that cannot
+# push tags itself can dispatch one (Cooper, 2026-11-13: "you need to start
+# doing that yourself"). Each lab pins these tags in its shared.lock.json.
+name: Tag a release
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to create, e.g. v17"
+        required: true
+      sha:
+        description: "Full commit sha on main to tag"
+        required: true
+permissions:
+  contents: write
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Create the tag
+        env:
+          TAG: ${{ inputs.tag }}
+          SHA: ${{ inputs.sha }}
+        run: |
+          set -euo pipefail
+          [[ "$TAG" =~ ^v[0-9]+(\.[0-9]+)*$ ]] || { echo "::error::tag must look like v17"; exit 1; }
+          [[ "$SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::sha must be a full 40-character commit sha"; exit 1; }
+          git merge-base --is-ancestor "$SHA" origin/main || { echo "::error::$SHA is not on main"; exit 1; }
+          if git ls-remote --exit-code --heads origin "$TAG" >/dev/null; then
+            echo "::error::a branch named $TAG exists and would shadow the tag; delete it first"; exit 1
+          fi
+          if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
+            [ "$(git rev-parse "$TAG^{commit}")" = "$SHA" ] && { echo "$TAG already points at $SHA"; exit 0; }
+            echo "::error::$TAG already exists on another commit; tags are never moved"; exit 1
+          fi
+          git tag "$TAG" "$SHA"
+          git push origin "refs/tags/$TAG"
+          echo "Tagged $SHA as $TAG"
