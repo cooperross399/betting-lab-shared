@@ -2,17 +2,6 @@
 <html>
 <head>
 <meta charset="utf-8">
-<!-- smooth-pages -->
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#0e1013">
-<style>html,body{margin:0;background:#14151a;color:#f1efe9;}@media (max-width:719px){header>nav[aria-label="Site"]{flex-basis:100%;}}section div:has(+h1){min-height:1.2em;}nav[aria-label="Board sections"]{overflow-x:auto;scrollbar-width:none;}nav[aria-label="Board sections"] a{flex:1 0 auto!important;min-width:0!important;padding:0 7px!important;}@media (max-width:519px){nav[aria-label="Board sections"] a{font-size:11px!important;letter-spacing:.03em!important;padding:0 5px!important;}}html.sp-wait body{visibility:hidden;}</style>
-<script>(function(){var d=document.documentElement;d.classList.add('sp-wait');var n=0,saw=0,last=Date.now(),t0=last,done=0,f=window.fetch;function own(u){try{return new URL(u&&u.url||u,location.href).origin===location.origin}catch(e){return 0}}if(f)window.fetch=function(u){var o=own(u);if(o)n++;var p=f.apply(this,arguments);if(o){var e=function(){n--;saw=1;last=Date.now()};p.then(e,e)}return p};function show(){if(done)return;done=1;d.classList.remove('sp-wait')}function tick(){if(done)return;var now=Date.now(),fo=!document.fonts||document.fonts.status==='loaded';if(now-t0>1600||(saw&&!n&&fo&&now-last>120&&document.readyState!=='loading'))show();else setTimeout(tick,40)}new MutationObserver(function(){last=Date.now()}).observe(d,{subtree:true,childList:true,characterData:true,attributes:true});setTimeout(tick,40)})();</script>
-<script type="speculationrules">{"prerender":[{"where":{"href_matches":"/*.dc.html"},"eagerness":"moderate"}]}</script>
-<link rel="preconnect" href="https://unpkg.com" crossorigin>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="script" href="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z">
-<link rel="preload" as="script" href="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
@@ -190,7 +179,7 @@ class Component extends DCLogic {
     const want = `${this.props.sport || "nhl"}|${this.props.scenario || ""}`;
     if (this.state.loadedFor === want) return;
     this.setState({ loadedFor: want });
-    const S = await import(new URL("./lib/sports.js", location.href).href);
+    const S = await import("./lib/sports.js");
     const { sport, deployed, pages } = await S.detectSport(want);
     if (typeof document !== "undefined") { document.documentElement.setAttribute("data-sport", sport); { const p = getComputedStyle(document.documentElement).getPropertyValue("--paper").trim(), m = document.querySelector('meta[name="theme-color"]'); if (m && p) m.setAttribute("content", p); } }
     const cfg = S.SPORTS[sport];
@@ -212,7 +201,7 @@ class Component extends DCLogic {
     const sk = (vm && vm.sport.key) || ((/^(nhl|epl|cbb)\./.exec(location.hostname) || [])[1]) || this.props.sport || "nhl";
     const tab = (label, href, on) => ({ label, href, current: on ? "page" : undefined, shadow: on ? "inset 0 -3px 0 var(--ink)" : "none" });
     const hasPage = (k) => this.state.pages instanceof Set && this.state.pages.has(k);
-    const tabs = [tab(sk === "epl" ? "This week" : "Tonight", "Board.dc.html"), ...(this.state.propsTab ? [tab("Props", "Board.dc.html#props")] : []), tab("Results", "Results.dc.html", false), ...(hasPage("season") ? [tab("Season", "Season.dc.html")] : []), ...(hasPage("record") ? [tab("Record", "Record.dc.html", false)] : [])];
+    const tabs = [tab(sk === "epl" ? "This week" : "Tonight", "Board.dc.html"), ...(this.state.propsTab ? [tab("Props", "Board.dc.html#props")] : []), tab("Results", "Results.dc.html", false), ...(hasPage("season") ? [tab("Season", "Season.dc.html")] : []), ...(hasPage("record") ? [tab("Record", "Record.dc.html", false)] : []), ...(hasPage("tracker") ? [tab("Tracker", "Tracker.dc.html", false)] : [tab("Archive", "Archive.dc.html", false)])];
     const themeAttr = { Light: "light", Dark: "dark" }[this.props.theme] || "auto";
     if (!vm) return { themeAttr, tabs, rows: [], strip3: [], otherSports: [], title1: "Tonight's", title2: "Board.", feat: { show: false }, propsCard: { show: false, rows: [] } };
     const T = this.state.teams || {};

@@ -2,17 +2,6 @@
 <html>
 <head>
 <meta charset="utf-8">
-<!-- smooth-pages -->
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#0e1013">
-<style>html,body{margin:0;background:#14151a;color:#f1efe9;}@media (max-width:719px){header>nav[aria-label="Site"]{flex-basis:100%;}}section div:has(+h1){min-height:1.2em;}nav[aria-label="Board sections"]{overflow-x:auto;scrollbar-width:none;}nav[aria-label="Board sections"] a{flex:1 0 auto!important;min-width:0!important;padding:0 7px!important;}@media (max-width:519px){nav[aria-label="Board sections"] a{font-size:11px!important;letter-spacing:.03em!important;padding:0 5px!important;}}html.sp-wait body{visibility:hidden;}</style>
-<script>(function(){var d=document.documentElement;d.classList.add('sp-wait');var n=0,saw=0,last=Date.now(),t0=last,done=0,f=window.fetch;function own(u){try{return new URL(u&&u.url||u,location.href).origin===location.origin}catch(e){return 0}}if(f)window.fetch=function(u){var o=own(u);if(o)n++;var p=f.apply(this,arguments);if(o){var e=function(){n--;saw=1;last=Date.now()};p.then(e,e)}return p};function show(){if(done)return;done=1;d.classList.remove('sp-wait')}function tick(){if(done)return;var now=Date.now(),fo=!document.fonts||document.fonts.status==='loaded';if(now-t0>1600||(saw&&!n&&fo&&now-last>120&&document.readyState!=='loading'))show();else setTimeout(tick,40)}new MutationObserver(function(){last=Date.now()}).observe(d,{subtree:true,childList:true,characterData:true,attributes:true});setTimeout(tick,40)})();</script>
-<script type="speculationrules">{"prerender":[{"where":{"href_matches":"/*.dc.html"},"eagerness":"moderate"}]}</script>
-<link rel="preconnect" href="https://unpkg.com" crossorigin>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="script" href="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z">
-<link rel="preload" as="script" href="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
@@ -246,7 +235,7 @@
     <section id="due" aria-labelledby="due-h" style="padding-top:48px;">
       <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;border-bottom:3px solid var(--ink);padding-bottom:10px;">
         <h2 id="due-h" style="margin:0;font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:34px;line-height:1;letter-spacing:-.01em;">Due List</h2>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mute);border:1px solid var(--rule);padding:2px 6px;">Not model bets · 0.25u each, less at +200 and longer</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mute);border:1px solid var(--rule);padding:2px 6px;">Not model bets · tracked at 0.25u each</span>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:0 24px;border-bottom:1px solid var(--ink);">
         <sc-for list="{{ dl.strip }}" as="c" hint-placeholder-count="5">
@@ -334,7 +323,7 @@ class Component extends DCLogic {
     if (v && typeof v === "object" && Object.getPrototypeOf(v) === Object.prototype) { const o = {}; for (const k in v) o[k] = Component.plain(v[k]); return o; }
     return v;
   }
-  state = { vm: null, feedNotice: null, loadedFor: null, pages: new Set(["season","record","tracker","methods","game"]), propsTab: true };
+  state = { vm: null, feedNotice: null, loadedFor: null };
   async load() {
     const onSite = /(^|\.)maverickhightower\.com$/.test(location.hostname);
     // On the real domain, always the real results (see Board.dc.html: the
@@ -343,7 +332,7 @@ class Component extends DCLogic {
     const want = (this.props.sport || "nhl") + "|" + scenario;
     if (this.state.loadedFor === want) return;
     this.setState({ loadedFor: want });
-    const S = await import(new URL("./lib/sports.js", location.href).href);
+    const S = await import("./lib/sports.js");
     const { sport, deployed, pages } = await S.detectSport(this.props.sport || "nhl");
     if (typeof document !== "undefined") { document.documentElement.setAttribute("data-sport", sport); { const p = getComputedStyle(document.documentElement).getPropertyValue("--paper").trim(), m = document.querySelector('meta[name="theme-color"]'); if (m && p) m.setAttribute("content", p); } }
     const FIX = { "Props sample": "./data/sample/results_props.json", "Props · no lines": "./data/sample/results_props_no_lines.json", "Props · abstain": "./data/sample/results_props_abstain.json" };
@@ -366,7 +355,7 @@ class Component extends DCLogic {
     const sk = (this.state.vm && this.state.vm.sport.key) || ((/^(nhl|epl|cbb)\./.exec(location.hostname) || [])[1]) || this.props.sport || "nhl";
     const tab = (label, href, on) => ({ label, href, current: on ? "page" : undefined, shadow: on ? "inset 0 -3px 0 var(--ink)" : "none" });
     const hasPage = (k) => this.state.pages instanceof Set && this.state.pages.has(k);
-    const tabs = [tab(sk === "epl" ? "This week" : "Tonight", "Board.dc.html"), ...(this.state.propsTab ? [tab("Props", "Board.dc.html#props")] : []), tab("Results", "Results.dc.html", true), ...(hasPage("season") ? [tab("Season", "Season.dc.html")] : []), ...(hasPage("record") ? [tab("Record", "Record.dc.html", false)] : [])];
+    const tabs = [tab(sk === "epl" ? "This week" : "Tonight", "Board.dc.html"), ...(this.state.propsTab ? [tab("Props", "Board.dc.html#props")] : []), tab("Results", "Results.dc.html", true), ...(hasPage("season") ? [tab("Season", "Season.dc.html")] : []), ...(hasPage("record") ? [tab("Record", "Record.dc.html", false)] : []), ...(hasPage("tracker") ? [tab("Tracker", "Tracker.dc.html", false)] : [tab("Archive", "Archive.dc.html", false)])];
     // sports.js hands back light-theme hex; map them onto the theme tokens.
     const TOK = { "#14151a": "var(--ink)", "#f4f2ee": "var(--paper)", "#6b6e7a": "var(--mute)", "#9a9ca6": "var(--mute-2)", "#b0341f": "var(--alert)", "#2c7a5a": "var(--win)" };
     const tok = (c) => TOK[c] || c;
@@ -388,7 +377,7 @@ class Component extends DCLogic {
     const raw = this.state.raw || {}, RP = raw.props || {}, sgn = (x) => (x > 0 ? "+" : x < 0 ? "−" : "") + Math.abs(x).toFixed(2);
     const rec = (r) => `${r.w || 0}–${r.l || 0}${r.p != null ? `–${r.p}` : ""}`;
     const rate = (r) => { const n = (r.w || 0) + (r.l || 0); return n ? `${Math.round(((r.w || 0) / n) * 100)}% hit` : "—"; };
-    if (pr.strip && RP.seasonLeans) pr.strip = [...pr.strip, { label: "Props · leans · season", value: RP.seasonLeans.nights ? rec(RP.seasonLeans) : "—", sub: RP.seasonLeans.nights ? (typeof RP.seasonLeans.units === "number" ? `${sgn(RP.seasonLeans.units)}u at 0.25u a lean (less at +200 and longer) · ${rate(RP.seasonLeans)}` : rate(RP.seasonLeans)) : "No night settled yet" }];
+    if (pr.strip && RP.seasonLeans) pr.strip = [...pr.strip, { label: "Props · leans · season", value: RP.seasonLeans.nights ? rec(RP.seasonLeans) : "—", sub: RP.seasonLeans.nights ? rate(RP.seasonLeans) : "No night settled yet" }];
     // Due List (results.json dueList): Cooper's list, graded like a prop and tracked as if 0.25u were bet on every priced entry (nothing is bet).
     const D = raw.dueList;
     const CAT = { points: ["1+ point", "point", "points"], goals: ["Anytime goal", "goal", "goals"], assists: ["1+ assist", "assist", "assists"],
